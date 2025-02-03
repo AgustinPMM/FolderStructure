@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-# Created by @agustinpmm - Modified by [your name]
+# Created by @agustinpmm
 
 def create_structure_from_file(file, base_directory):
     """Creates the folder structure from the file.
@@ -46,18 +46,17 @@ def create_structure_from_file(file, base_directory):
                             continue
                         
                         new_path.mkdir(exist_ok=True)
-                        print(f"Folder created: {new_path}")
                         new_paths.append(new_path)
                         
                 # Update current paths for the next level
                 current_paths = new_paths
 
 def validate_file(file_path):
-    """Checks if the file exists and is a regular file."""
+    # Checks if the file exists and is a regular file
     return pathlib.Path(file_path).is_file()
 
 def get_base_directory():
-    """Prompts and validates the base directory."""
+    # Prompts and validates the base directory
     while True:
         directory = input("\nEnter the base directory (press Enter for current): ").strip()
         
