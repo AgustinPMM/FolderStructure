@@ -12,10 +12,10 @@ A simple Python program that creates a folder structure from a text file. The pr
 
    Create a text file (e.g., `structure.txt`) with each line representing a folder path. For example:
    ```
-   mi-proyecto/docs-manuales
-   src/modelos-controladores
-   tests/unitarios-integracion
-   public/img-iconos-banners
+   docs/guides               
+   src/game-engine           
+   tests/functional-tests    
+   public/img-sprites-banners 
    ```
 
 2. **Run the program**
