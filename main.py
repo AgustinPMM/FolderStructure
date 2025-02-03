@@ -1,14 +1,16 @@
 import os
 import pathlib
 
-# Created by @agustinpmm
+# Created by @agustinpmm - Modified by [your name]
 
 def create_structure_from_file(file, base_directory):
-    """Creates folder structure with support for multiple subfolders using hyphens"""
+    """Creates the folder structure from the file.
+    
+    Uses '/' to indicate a subfolder level and '-' to create
+    multiple sibling folders at the same level.
+    """
     print("\nCreating folder structure...\n")
     base_path = pathlib.Path(base_directory).resolve()
-
-    # Create base directory if it does not exist
     base_path.mkdir(parents=True, exist_ok=True)
     
     with open(file, "r") as f:
@@ -16,38 +18,46 @@ def create_structure_from_file(file, base_directory):
             relative_path = line.strip()
             if not relative_path:  # Ignore empty lines
                 continue
-                
-            current_path = base_path
-            components = relative_path.split('/')
             
-            for component in components:
-                # Split each component by hyphens
-                subfolders = component.split('-')
+            # Start at the base directory
+            current_paths = [base_path]
+            
+            # Split levels using '/'
+            groups = relative_path.split('/')
+            
+            for group in groups:
+                # Within each level, split names by '-'
+                names = group.split('-')
+                new_paths = []
                 
-                for subfolder in subfolders:
-                    if not subfolder:  # Ignore empty elements
-                        continue
+                for path in current_paths:
+                    for name in names:
+                        name = name.strip()
+                        if not name:
+                            continue
                         
-                    new_path = current_path / subfolder
-                    
-                    # Check path security
-                    try:
-                        new_path.relative_to(base_path)
-                    except ValueError:
-                        print(f"Warning: '{new_path}' is outside the base directory. Skipping.")
-                        break
-                    
-                    # Create folder if it doesn't exist
-                    new_path.mkdir(parents=False, exist_ok=True)
-                    print(f"Folder created: {new_path}")
-                    current_path = new_path
+                        new_path = path / name
+                        
+                        # Ensure the new path is within the base directory
+                        try:
+                            new_path.relative_to(base_path)
+                        except ValueError:
+                            print(f"Warning: '{new_path}' is outside the base directory. Skipping.")
+                            continue
+                        
+                        new_path.mkdir(exist_ok=True)
+                        print(f"Folder created: {new_path}")
+                        new_paths.append(new_path)
+                        
+                # Update current paths for the next level
+                current_paths = new_paths
 
 def validate_file(file_path):
-    """Checks if the file exists and is a regular file"""
+    """Checks if the file exists and is a regular file."""
     return pathlib.Path(file_path).is_file()
 
 def get_base_directory():
-    """Gets and validates the user's base directory"""
+    """Prompts and validates the base directory."""
     while True:
         directory = input("\nEnter the base directory (press Enter for current): ").strip()
         
@@ -66,7 +76,7 @@ def get_base_directory():
 
 def main():
     print("-----------------------------------------")
-    print("         Folder Structure Builder      ")
+    print("         Folder Structure Builder        ")
     print("-----------------------------------------\n")
 
     while True:
