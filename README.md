@@ -1,3 +1,5 @@
+I made this project with AI to help me learn how to program better in Python.
+
 # FolderStructure
 A simple Python program that creates a folder structure from a text file. The program reads a file with folder paths and, based on the specified separators (slashes `/` and hyphens `-`), creates the corresponding directories.
 
